@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RadvinSPlus — مستندات کامل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f19; --surface:#121829; --surface2:#1a2238; --border:#27324f;
+  --text:#e6ebf5; --muted:#8b97b5; --accent:#7c8cff; --accent2:#22d3ee;
+  --accent-grad:linear-gradient(135deg,#7c8cff,#22d3ee);
+  --ok:#34d399; --warn:#fbbf24; --code-bg:#0a0e18;
+  --shadow:0 10px 40px rgba(0,0,0,.35);
+  color-scheme:dark;
+}
+[data-theme="light"]{
+  --bg:#f5f7fc; --surface:#ffffff; --surface2:#eef2fb; --border:#dde3f0;
+  --text:#1a2238; --muted:#5b6785; --accent:#4f5bd5; --accent2:#0ea5c6;
+  --code-bg:#f1f4fb; --shadow:0 10px 30px rgba(20,30,70,.08); color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;font-family:"Vazirmatn",system-ui,-apple-system,Segoe UI,Tahoma,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.9;font-size:16px;
+  background-image:radial-gradient(1200px 600px at 90% -10%,rgba(124,140,255,.15),transparent 60%),
+                   radial-gradient(900px 500px at -10% 10%,rgba(34,211,238,.10),transparent 60%);
+  background-attachment:fixed}
+a{color:var(--accent);text-decoration:none}
+code,pre,.mono{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace}
+code{background:var(--surface2);padding:.15em .45em;border-radius:6px;font-size:.88em;direction:ltr;unicode-bidi:isolate}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:color-mix(in srgb,var(--bg) 80%,transparent);border-bottom:1px solid var(--border)}
+.topbar-inner{max-width:1280px;margin:auto;display:flex;align-items:center;gap:14px;padding:12px 20px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
+.logo-badge{width:36px;height:36px;border-radius:10px;background:var(--accent-grad);
+  display:grid;place-items:center;color:#fff;font-family:"JetBrains Mono",monospace;font-weight:700}
+.version{font-size:.75rem;padding:3px 10px;border-radius:999px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.spacer{flex:1}
+.search{position:relative;width:min(340px,40vw)}
+.search input{width:100%;padding:9px 14px 9px 38px;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);font:inherit;outline:none;transition:.2s}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)}
+.search::before{content:"⌕";position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:18px}
+.iconbtn{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:12px;
+  padding:8px 12px;cursor:pointer;font:inherit}
+.menu-toggle{display:none}
+
+/* ---------- layout ---------- */
+.layout{max-width:1280px;margin:auto;display:grid;grid-template-columns:270px 1fr;gap:28px;padding:24px 20px 80px}
+.sidebar{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 100px);overflow:auto;padding-left:4px}
+.sidebar h4{margin:18px 8px 6px;font-size:.75rem;letter-spacing:.08em;color:var(--muted);font-weight:600}
+.sidebar a{display:block;padding:8px 12px;border-radius:10px;color:var(--text);font-size:.95rem;transition:.15s}
+.sidebar a:hover{background:var(--surface2)}
+.sidebar a.active{background:var(--accent-grad);color:#fff;font-weight:600}
+.sidebar a.hidden{display:none}
+
+main{min-width:0}
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:44px 40px;margin-bottom:28px;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 22%,var(--surface)),var(--surface));
+  border:1px solid var(--border);box-shadow:var(--shadow)}
+.hero::after{content:"";position:absolute;inset:auto -80px -120px auto;width:340px;height:340px;border-radius:50%;
+  background:var(--accent-grad);opacity:.18;filter:blur(20px)}
+.hero h1{margin:0 0 8px;font-size:2.4rem;font-weight:800;background:var(--accent-grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:6px 0;color:var(--muted);max-width:640px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.chip{padding:6px 14px;border-radius:999px;background:var(--surface);border:1px solid var(--border);font-size:.85rem}
+.chip b{color:var(--accent)}
+.cta{display:inline-block;margin-top:20px;padding:10px 20px;border-radius:12px;background:var(--accent-grad);color:#fff!important;font-weight:600}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:28px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px}
+.stat .n{font-size:1.5rem;font-weight:800;color:var(--accent)}
+.stat .l{color:var(--muted);font-size:.85rem}
+
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:34px}
+.feature{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:18px;transition:.2s;color:var(--text)}
+.feature:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:var(--shadow)}
+.feature .ico{font-size:1.6rem}
+.feature h3{margin:8px 0 4px;font-size:1rem}
+.feature p{margin:0;color:var(--muted);font-size:.88rem}
+
+section.doc{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 34px;margin-bottom:26px;box-shadow:var(--shadow);scroll-margin-top:90px}
+section.doc h2{margin:0 0 6px;font-size:1.7rem;display:flex;align-items:center;gap:10px}
+.lead{color:var(--muted);margin:0 0 20px}
+section.doc h3{margin:28px 0 8px;font-size:1.1rem;color:var(--accent)}
+section.doc p{margin:10px 0}
+ul.clean{padding:0;list-style:none;margin:10px 0}
+ul.clean li{padding:6px 0 6px 0;display:flex;gap:10px}
+ul.clean li::before{content:"◆";color:var(--accent2);font-size:.7rem;margin-top:8px}
+
+.callout{border-radius:14px;padding:14px 18px;margin:18px 0;border:1px solid var(--border);background:var(--surface2)}
+.callout.tip{border-color:color-mix(in srgb,var(--ok) 50%,var(--border));background:color-mix(in srgb,var(--ok) 10%,var(--surface))}
+.callout.warn{border-color:color-mix(in srgb,var(--warn) 55%,var(--border));background:color-mix(in srgb,var(--warn) 10%,var(--surface))}
+.callout b{display:block;margin-bottom:4px}
+
+/* code blocks */
+.codeblock{position:relative;margin:14px 0;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--code-bg)}
+.codeblock .bar{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--surface2);
+  font-size:.78rem;color:var(--muted);border-bottom:1px solid var(--border);direction:ltr}
+.codeblock .dots span{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;background:#f87171}
+.codeblock .dots span:nth-child(2){background:#fbbf24}.codeblock .dots span:nth-child(3){background:#34d399}
+.copy{border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;padding:3px 10px;cursor:pointer;font:inherit;font-size:.78rem}
+.copy:hover{border-color:var(--accent);color:var(--accent)}
+.codeblock pre{margin:0;padding:16px 18px;overflow:auto;direction:ltr;text-align:left;font-size:.9rem;line-height:1.7}
+.tok-k{color:#c084fc}.tok-s{color:#86efac}.tok-c{color:var(--muted);font-style:italic}.tok-f{color:#7dd3fc}.tok-n{color:#fdba74}
+
+.tabs{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.tabs button{border:1px solid var(--border);background:var(--surface2);color:var(--muted);padding:6px 14px;border-radius:10px;cursor:pointer;font:inherit;font-size:.85rem}
+.tabs button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+table{width:100%;border-collapse:separate;border-spacing:0;margin:14px 0;border:1px solid var(--border);border-radius:14px;overflow:hidden}
+th,td{padding:10px 14px;text-align:right;border-bottom:1px solid var(--border);font-size:.92rem;vertical-align:top}
+th{background:var(--surface2);font-weight:600}
+tr:last-child td{border-bottom:none}
+
+.filter-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.filter-chips code{font-size:.85rem}
+
+.ops{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+.op{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px;text-align:center}
+.op .sym{font-size:1.6rem;font-weight:800;color:var(--accent2);font-family:"JetBrains Mono",monospace;direction:ltr}
+
+.faq details{background:var(--surface2);border:1px solid var(--border);border-radius:14px;padding:14px 18px;margin:10px 0}
+.faq summary{cursor:pointer;font-weight:600;list-style:none}
+.faq summary::after{content:"+";float:left;color:var(--accent);font-size:1.2rem}
+.faq details[open] summary::after{content:"−"}
+.faq details p{color:var(--muted);margin:10px 0 0}
+
+.owner{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--accent-grad);display:grid;place-items:center;font-size:2rem;color:#fff}
+
+.steps{counter-reset:s;margin:14px 0;padding:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding:10px 14px 10px 54px;margin:8px 0;background:var(--surface2);border-radius:12px;border:1px solid var(--border)}
+.steps li::before{content:counter(s);position:absolute;left:14px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:.8rem;font-weight:700}
+
+.toc-inline{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.toc-inline a{padding:6px 12px;border-radius:999px;background:var(--surface2);border:1px solid var(--border);font-size:.85rem;color:var(--text)}
+
+.tokenrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.tokeninput{flex:1;min-width:220px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);font-family:"JetBrains Mono",monospace;direction:ltr;outline:none}
+.tokeninput:focus{border-color:var(--accent)}
+.codeeditor{width:100%;min-height:260px;padding:16px 18px;border-radius:14px;border:1px solid var(--border);background:var(--code-bg);color:var(--text);font-family:"JetBrains Mono",monospace;font-size:.9rem;line-height:1.7;resize:vertical;outline:none;tab-size:4}
+.codeeditor:focus{border-color:var(--accent)}
+.empty{display:none;text-align:center;color:var(--muted);padding:40px}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:30px 0 10px}
+
+.totop{position:fixed;left:20px;bottom:20px;width:44px;height:44px;border-radius:50%;border:none;background:var(--accent-grad);color:#fff;font-size:1.2rem;cursor:pointer;opacity:0;pointer-events:none;transition:.2s;box-shadow:var(--shadow)}
+.totop.show{opacity:1;pointer-events:auto}
+
+.overlay{display:none}
+
+@media (max-width:980px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:fixed;top:0;right:-300px;width:280px;height:100vh;max-height:none;background:var(--surface);
+    border-left:1px solid var(--border);padding:70px 16px 20px;z-index:60;transition:right .25s;box-shadow:var(--shadow)}
+  .sidebar.open{right:0}
+  .overlay.open{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:55}
+  .menu-toggle{display:inline-block}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .ops{grid-template-columns:1fr}
+  .search{width:auto;flex:1}
+  .hero{padding:28px 22px}
+  .hero h1{font-size:1.9rem}
+  section.doc{padding:22px 18px}
+  .version{display:none}
+}
+@media (max-width:600px){ .topbar-inner{flex-wrap:wrap} .search{order:3;width:100%} }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="iconbtn menu-toggle" id="menuBtn" aria-label="منو">☰</button>
+    <div class="logo">
+      <div class="logo-badge">RS</div>
+      <span>RadvinSPlus</span>
+      <span class="version">v1.0.0</span>
+    </div>
+    <div class="spacer"></div>
+    <div class="search"><input id="searchInput" type="search" placeholder="جستجو در مستندات…" autocomplete="off"></div>
+    <button class="iconbtn" id="themeBtn" title="تغییر تم">🌓</button>
+  </div>
+</header>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <h4>شروع کار</h4>
+    <a href="#intro" class="nav" data-id="intro">🏠 معرفی</a>
+    <a href="#install" class="nav" data-id="install">📦 نصب و راه‌اندازی</a>
+    <a href="#firstbot" class="nav" data-id="firstbot">🚀 اولین ربات</a>
+    <a href="#quickstart" class="nav" data-id="quickstart">⚡ شروع سریع</a>
+    <a href="#playground" class="nav" data-id="playground">🧪 محیط تمرین</a>
+    <h4>مفاهیم اصلی</h4>
+    <a href="#context" class="nav" data-id="context">🧩 Context و پیام‌ها</a>
+    <a href="#filters" class="nav" data-id="filters">🔎 فیلترها</a>
+    <a href="#router" class="nav" data-id="router">🧭 Router و ساختار</a>
+    <h4>رابط کاربری</h4>
+    <a href="#keyboard" class="nav" data-id="keyboard">🪄 دکمه‌های شیشه‌ای</a>
+    <a href="#replykeyboard" class="nav" data-id="replykeyboard">⌨️ کیبورد پاسخ</a>
+    <a href="#media" class="nav" data-id="media">🖼️ فایل و رسانه</a>
+    <h4>پیشرفته</h4>
+    <a href="#errors" class="nav" data-id="errors">🛡️ خطاها و امنیت</a>
+    <a href="#polling" class="nav" data-id="polling">🌐 Polling و Webhook</a>
+    <a href="#api" class="nav" data-id="api">⚙️ فراخوانی API</a>
+    <h4>مرجع</h4>
+    <a href="#limits" class="nav" data-id="limits">📚 نسخه و محدودیت‌ها</a>
+    <a href="#faq" class="nav" data-id="faq">❔ پرسش‌های پرتکرار</a>
+    <a href="#owner" class="nav" data-id="owner">👨‍💻 سازنده</a>
+  </aside>
+
+  <main>
+    <div class="hero" id="intro">
+      <h1>RadvinSPlus Documentation</h1>
+      <p>راهنمای کامل کتابخانه <code>radvinsplus</code> برای ساخت ربات‌های سروش‌پلاس. کتابخانه‌ای سبک، بدون وابستگی ثالث در زمان اجرا، با پشتیبانی از Polling، Webhook، Router، فیلترهای ترکیبی و کیبوردهای آماده.</p>
+      <div class="chips">
+        <span class="chip">نسخه <b>1.0.0</b></span>
+        <span class="chip">Python <b>3.10+</b></span>
+        <span class="chip">بدون وابستگی ثالث</span>
+        <span class="chip">Polling & Webhook</span>
+      </div>
+      <a class="cta" href="#install">شروع کن ←</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="n">12</div><div class="l">بخش آموزشی</div></div>
+      <div class="stat"><div class="n">14+</div><div class="l">فیلتر آماده</div></div>
+      <div class="stat"><div class="n">0</div><div class="l">وابستگی Runtime</div></div>
+      <div class="stat"><div class="n">3.10+</div><div class="l">نسخه Python</div></div>
+    </div>
+
+    <div class="card-grid">
+      <a class="feature" href="#firstbot"><div class="ico">🚀</div><h3>شروع سریع</h3><p>در چند دقیقه اولین ربات را اجرا کن.</p></a>
+      <a class="feature" href="#filters"><div class="ico">🔎</div><h3>فیلترهای ترکیبی</h3><p>با &amp; | ~ شرط‌های دلخواه بساز.</p></a>
+      <a class="feature" href="#keyboard"><div class="ico">🪄</div><h3>دکمه‌های شیشه‌ای</h3><p>Inline Keyboard با Callback و لینک.</p></a>
+      <a class="feature" href="#router"><div class="ico">🧭</div><h3>Router</h3><p>پروژه بزرگ را ماژولار و مرتب کن.</p></a>
+      <a class="feature" href="#polling"><div class="ico">🌐</div><h3>Webhook</h3><p>دریافت Update با HTTP و Reverse Proxy.</p></a>
+      <a class="feature" href="#errors"><div class="ico">🛡️</div><h3>مدیریت خطا</h3><p>APIError و NetworkError با on_error.</p></a>
+    </div>
+
+    <!-- INSTALL -->
+    <section class="doc" id="install" data-title="نصب و راه‌اندازی install">
+      <h2>📦 نصب و راه‌اندازی</h2>
+      <p class="lead">پیش‌نیاز: Python نسخه 3.10 یا جدیدتر.</p>
+
+      <h3>۱. نصب از PyPI</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>bash</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-c"># نصب نسخه مشخص از PyPI</span>
+python -m pip install --upgrade radvinsplus==1.0.0</code></pre></div>
+
+      <div class="callout"><b>📄 اطلاعات بسته در PyPI</b>
+        <ul class="clean" style="margin-top:6px">
+          <li>نام بسته: <code>radvinsplus</code> · نسخه: <code>1.0.0</code> · لایسنس: <b>MIT</b></li>
+          <li>نیازمندی: <b>Python ≥ 3.10</b> · فرمت: wheel (<code>py3-none-any</code>) با حجم حدود ۱۶.۶ کیلوبایت</li>
+          <li>صفحه رسمی: <code>https://pypi.org/project/radvinsplus/1.0.0/</code></li>
+        </ul>
+      </div>
+
+      <h3>۲. بررسی نصب</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>bash</span><button class="copy">کپی</button></div>
+<pre><code>python -c "import radvinsplus; print(radvinsplus.__version__)"</code></pre></div>
+
+      <div class="callout tip"><b>✅ نکته</b>بسته مستقیماً از مخزن رسمی PyPI دریافت می‌شود و نیازی به سورس محلی کتابخانه نیست.</div>
+
+      <h3>نصب از سورس (برای توسعه)</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>bash</span><button class="copy">کپی</button></div>
+<pre><code>python -m pip install .        <span class="tok-c"># نصب عادی از سورس</span>
+python -m pip install -e .     <span class="tok-c"># حالت توسعه</span></code></pre></div>
+
+      <h3>۳. نصب وابستگی‌های پروژه نمونه</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>bash</span><button class="copy">کپی</button></div>
+<pre><code>python -m pip install -r requirements.txt</code></pre></div>
+
+      <div class="callout"><b>ℹ️ بدون وابستگی ثالث</b>هسته radvinsplus در نسخه 1.0.0 در زمان اجرا به کتابخانه‌های ثالث وابسته نیست و فقط از کتابخانه استاندارد پایتون استفاده می‌کند.</div>
+    </section>
+
+    <!-- FIRST BOT -->
+    <section class="doc" id="firstbot" data-title="اولین ربات firstbot">
+      <h2>🚀 ساخت اولین ربات</h2>
+      <p class="lead">یک فایل به نام <code>bot.py</code> بساز:</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python · bot.py</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">import</span> os
+<span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot
+
+bot = Bot(os.environ[<span class="tok-s">"SPLUS_BOT_TOKEN"</span>])
+
+<span class="tok-n">@bot.command</span>(<span class="tok-s">"start"</span>)
+<span class="tok-k">def</span> <span class="tok-f">start</span>(ctx):
+    ctx.reply(<span class="tok-s">"سلام! ربات با radvinsplus فعاله."</span>)
+
+<span class="tok-n">@bot.command</span>(<span class="tok-s">"help"</span>)
+<span class="tok-k">def</span> <span class="tok-f">help_command</span>(ctx):
+    ctx.reply(<span class="tok-s">"یک پیام متنی بفرست تا دریافتش کنم."</span>)
+
+bot.run_polling()</code></pre></div>
+
+      <div class="callout warn"><b>⚠️ امنیت توکن</b>توکن را داخل کد قرار نده. آن را در متغیر محیطی <code>SPLUS_BOT_TOKEN</code> نگه دار.</div>
+
+      <div class="tabs" data-tabs>
+        <button class="on">Windows PowerShell</button>
+        <button>Linux / macOS</button>
+      </div>
+      <div class="tab-panel">
+        <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>powershell</span><button class="copy">کپی</button></div>
+<pre><code>$env:SPLUS_BOT_TOKEN="YOUR_TOKEN"
+python bot.py</code></pre></div>
+      </div>
+      <div class="tab-panel" hidden>
+        <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>bash</span><button class="copy">کپی</button></div>
+<pre><code>export SPLUS_BOT_TOKEN="YOUR_TOKEN"
+python3 bot.py</code></pre></div>
+      </div>
+
+      <ol class="steps">
+        <li>فایل <code>bot.py</code> را بساز و کد بالا را در آن بگذار.</li>
+        <li>توکن ربات را در متغیر محیطی تنظیم کن.</li>
+        <li>فایل را اجرا کن و در سروش‌پلاس به ربات پیام <code>/start</code> بده.</li>
+      </ol>
+    </section>
+
+    <!-- PLAYGROUND -->
+    <section class="doc" id="playground" data-title="محیط تمرین playground توکن کد">
+      <h2>🧪 محیط تمرین</h2>
+      <p class="lead">کد را اینجا ویرایش کن و توکن ربات را وارد کن تا در کد جایگزین شود. همه‌چیز فقط داخل همین صفحه و روی دستگاه خودت می‌ماند.</p>
+
+      <h3>۱. توکن ربات</h3>
+      <div class="tokenrow">
+        <input id="tokenInput" type="password" autocomplete="off" spellcheck="false" placeholder="توکن ربات را اینجا بچسبان" class="tokeninput">
+        <button class="iconbtn" id="tokenShow" type="button">نمایش</button>
+        <button class="iconbtn" id="tokenApply" type="button">جایگزینی در کد</button>
+      </div>
+
+      <h3>۲. کد (قابل ویرایش)</h3>
+      <textarea id="codeEditor" class="codeeditor" spellcheck="false" dir="ltr">import os
+from radvinsplus import Bot
+
+bot = Bot(os.environ["SPLUS_BOT_TOKEN"])   # یا: Bot("YOUR_TOKEN")
+
+@bot.command("start")
+def start(ctx):
+    ctx.reply("سلام! ربات فعاله.")
+
+bot.run_polling()</textarea>
+
+      <div class="tokenrow">
+        <button class="copy" id="codeCopy" type="button">کپی کد</button>
+        <button class="copy" id="codeReset" type="button">بازگردانی نمونه</button>
+      </div>
+
+      <div class="callout warn">
+        <b>🔐 امنیت توکن — حتماً بخوان</b>
+        <ul class="clean" style="margin-top:8px">
+          <li>توکن، کلید کنترل کامل ربات است. هرکس آن را داشته باشد می‌تواند ربات را بگیرد؛ آن را با هیچ‌کس به اشتراک نگذار.</li>
+          <li>این صفحه توکن را در هیچ حافظه‌ای (localStorage یا سرور) ذخیره یا ارسال نمی‌کند؛ با بستن یا رفرش صفحه پاک می‌شود.</li>
+          <li>در کد نهایی‌ات توکن را هاردکد نکن؛ از متغیر محیطی <code>SPLUS_BOT_TOKEN</code> استفاده کن.</li>
+          <li>اگر توکن لو رفت، فوراً آن را از پنل ربات باطل و توکن جدید بگیر.</li>
+          <li>کد حاوی توکن را در Git، اسکرین‌شات یا پیام عمومی منتشر نکن.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="doc" id="quickstart" data-title="شروع سریع quickstart filters echo">
+      <h2>⚡ شروع سریع (نمونه رسمی PyPI)</h2>
+      <p class="lead">این نمونه مستقیماً از README بسته رسمی در PyPI گرفته شده و ترکیب دستور، فیلتر متنی و پاسخ را نشان می‌دهد.</p>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot, Filters
+
+bot = Bot(<span class="tok-s">"YOUR_SOROUSH_BOT_TOKEN"</span>)
+
+<span class="tok-n">@bot.command</span>(<span class="tok-s">"start"</span>)
+<span class="tok-k">def</span> <span class="tok-f">start</span>(ctx):
+    ctx.reply(<span class="tok-s">"سلام! ربات آماده است."</span>)
+
+<span class="tok-n">@bot.on_message</span>(filters=Filters.text)
+<span class="tok-k">def</span> <span class="tok-f">echo</span>(ctx):
+    <span class="tok-k">if</span> ctx.command <span class="tok-k">is None</span>:
+        ctx.reply(<span class="tok-s">f"گفتی: {ctx.text}"</span>)
+
+bot.run_polling()</code></pre></div>
+      <div class="callout warn"><b>⚠️</b>توکن را در کد عمومی یا Git قرار نده؛ از متغیر محیطی استفاده کن.</div>
+    </section>
+
+    <!-- CONTEXT -->
+    <section class="doc" id="context" data-title="context پیام update">
+      <h2>🧩 Context و پیام‌ها</h2>
+      <p class="lead">هر هندلر یک شیء <code>ctx</code> دریافت می‌کند که تمام اطلاعات Update و متدهای پاسخ را دارد.</p>
+
+      <h3>ویژگی‌های Context</h3>
+      <table>
+        <tr><th>ویژگی</th><th>توضیح</th></tr>
+        <tr><td><code>ctx.update</code></td><td>کل داده Update</td></tr>
+        <tr><td><code>ctx.message</code></td><td>پیام دریافتی</td></tr>
+        <tr><td><code>ctx.callback_query</code></td><td>داده Callback</td></tr>
+        <tr><td><code>ctx.chat_id</code></td><td>شناسه گفتگو</td></tr>
+        <tr><td><code>ctx.user_id</code></td><td>شناسه فرستنده</td></tr>
+        <tr><td><code>ctx.message_id</code></td><td>شناسه پیام</td></tr>
+        <tr><td><code>ctx.text</code></td><td>متن پیام</td></tr>
+        <tr><td><code>ctx.command</code></td><td>نام دستور بدون <code>/</code> یا <code>None</code></td></tr>
+        <tr><td><code>ctx.args</code></td><td>آرگومان‌های دستور به‌صورت لیست</td></tr>
+      </table>
+
+      <h3>متدهای مهم</h3>
+      <div class="toc-inline">
+        <code>ctx.reply()</code><code>ctx.answer()</code><code>ctx.reply_photo()</code><code>ctx.reply_document()</code><code>ctx.edit_text()</code><code>ctx.delete()</code><code>ctx.answer_callback()</code>
+      </div>
+
+      <h3>نمونه</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot
+bot = Bot(<span class="tok-s">"TOKEN"</span>)
+
+<span class="tok-n">@bot.command</span>(<span class="tok-s">"id"</span>)
+<span class="tok-k">def</span> <span class="tok-f">show_id</span>(ctx):
+    ctx.reply(<span class="tok-s">f"شناسه شما: {ctx.user_id}"</span>)
+
+bot.run_polling()</code></pre></div>
+    </section>
+
+    <!-- FILTERS -->
+    <section class="doc" id="filters" data-title="فیلترها filters">
+      <h2>🔎 فیلترها</h2>
+      <p class="lead">فیلترها مشخص می‌کنند کدام Update به کدام هندلر برسد.</p>
+
+      <h3>فیلترهای آماده</h3>
+      <div class="filter-chips">
+        <code>Filters.all</code><code>text</code><code>photo</code><code>video</code><code>audio</code><code>document</code><code>contact</code><code>location</code><code>sticker</code><code>private</code><code>group</code><code>channel</code><code>callback_query</code><code>edited</code><code>regex(...)</code><code>startswith(...)</code>
+      </div>
+
+      <h3>عملگرهای ترکیبی</h3>
+      <div class="ops">
+        <div class="op"><div class="sym">&amp;</div>AND</div>
+        <div class="op"><div class="sym">|</div>OR</div>
+        <div class="op"><div class="sym">~</div>NOT</div>
+      </div>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot, Filters
+bot = Bot(<span class="tok-s">"TOKEN"</span>)
+
+<span class="tok-n">@bot.on_message</span>(filters=Filters.text &amp; Filters.private)
+<span class="tok-k">def</span> <span class="tok-f">private_text</span>(ctx):
+    ctx.reply(<span class="tok-s">"پیام متنی خصوصی دریافت شد"</span>)
+
+<span class="tok-n">@bot.on_message</span>(filters=Filters.photo | Filters.video)
+<span class="tok-k">def</span> <span class="tok-f">media</span>(ctx):
+    ctx.reply(<span class="tok-s">"رسانه دریافت شد"</span>)
+
+bot.run_polling()</code></pre></div>
+
+      <div class="callout tip"><b>💡 فیلتر سفارشی</b>هر تابعی که یک Update بگیرد و <code>True</code> یا <code>False</code> برگرداند می‌تواند فیلتر سفارشی باشد.</div>
+    </section>
+
+    <!-- ROUTER -->
+    <section class="doc" id="router" data-title="router ساختار پروژه">
+      <h2>🧭 Router و ساختار پروژه</h2>
+      <p class="lead">برای پروژه‌های بزرگ، هندلرها را در Router جداگانه ثبت کن و سپس به Bot متصل کن.</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot, Router
+
+bot = Bot(<span class="tok-s">"TOKEN"</span>)
+account = Router(<span class="tok-s">"account"</span>)
+
+<span class="tok-n">@account.command</span>(<span class="tok-s">"profile"</span>)
+<span class="tok-k">def</span> <span class="tok-f">profile</span>(ctx):
+    ctx.reply(<span class="tok-s">f"شناسه: {ctx.user_id}"</span>)
+
+bot.include_router(account)
+bot.run_polling()</code></pre></div>
+
+      <p>Router از <code>message</code>، <code>command</code>، <code>callback_query</code>، <code>edited_message</code> و <code>update</code> پشتیبانی می‌کند.</p>
+    </section>
+
+    <!-- KEYBOARD -->
+    <section class="doc" id="keyboard" data-title="دکمه شیشه‌ای inline keyboard callback">
+      <h2>🪄 دکمه‌های شیشه‌ای</h2>
+      <p class="lead">برای ساخت دکمه شیشه‌ای از <code>InlineKeyboard</code> و <code>InlineButton</code> استفاده کن.</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot, InlineKeyboard, InlineButton
+bot = Bot(<span class="tok-s">"TOKEN"</span>)
+
+<span class="tok-n">@bot.command</span>(<span class="tok-s">"start"</span>)
+<span class="tok-k">def</span> <span class="tok-f">start</span>(ctx):
+    menu = (InlineKeyboard()
+        .row(InlineButton.callback(<span class="tok-s">"وضعیت"</span>, <span class="tok-s">"status"</span>),
+             InlineButton.callback(<span class="tok-s">"راهنما"</span>, <span class="tok-s">"help"</span>)))
+    ctx.reply(<span class="tok-s">"یکی را انتخاب کن:"</span>, reply_markup=menu)
+
+<span class="tok-n">@bot.on_callback_query</span>
+<span class="tok-k">def</span> <span class="tok-f">callbacks</span>(ctx):
+    data = ctx.callback_query.get(<span class="tok-s">"data"</span>)
+    <span class="tok-k">if</span> data == <span class="tok-s">"status"</span>:
+        ctx.answer_callback(<span class="tok-s">"ربات فعاله"</span>)
+    <span class="tok-k">elif</span> data == <span class="tok-s">"help"</span>:
+        ctx.answer_callback(<span class="tok-s">"دستور /help را بفرست"</span>)
+
+bot.run_polling()</code></pre></div>
+
+      <div class="callout warn"><b>⚠️ محدودیت</b>داده callback حداکثر <b>۶۴ بایت UTF-8</b> است.</div>
+      <p>برای لینک مستقیم از <code>InlineButton.url(text, url)</code> استفاده کن.</p>
+    </section>
+
+    <!-- REPLY KEYBOARD -->
+    <section class="doc" id="replykeyboard" data-title="کیبورد پاسخ reply keyboard">
+      <h2>⌨️ کیبورد پاسخ</h2>
+      <p class="lead">کیبورد پاسخ در محل ورودی پیام نمایش داده می‌شود.</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> ReplyKeyboard, remove_keyboard
+
+keyboard = ReplyKeyboard(resize=<span class="tok-n">True</span>, one_time=<span class="tok-n">False</span>)
+keyboard.row(<span class="tok-s">"پروفایل"</span>, <span class="tok-s">"راهنما"</span>)
+keyboard.add(<span class="tok-s">"ارسال موقعیت"</span>, request_location=<span class="tok-n">True</span>)
+ctx.reply(<span class="tok-s">"از منو استفاده کن:"</span>, reply_markup=keyboard)
+
+<span class="tok-c"># حذف کیبورد</span>
+ctx.reply(<span class="tok-s">"کیبورد حذف شد"</span>, reply_markup=remove_keyboard())</code></pre></div>
+
+      <div class="callout warn"><b>⚠️ توجه</b>در <code>add</code> می‌توان از <code>request_contact=True</code> یا <code>request_location=True</code> استفاده کرد؛ هر دو را هم‌زمان برای یک دکمه فعال نکن.</div>
+    </section>
+
+    <!-- MEDIA -->
+    <section class="doc" id="media" data-title="فایل رسانه media file">
+      <h2>🖼️ فایل و رسانه</h2>
+      <p class="lead">در Context متدهای <code>reply_photo</code> و <code>reply_document</code> در دسترس‌اند. در Client نیز متدهای API مثل <code>send_photo</code>، <code>send_video</code>، <code>send_audio</code>، <code>send_document</code> و <code>send_media_group</code> قابل فراخوانی‌اند.</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot, InputFile
+bot = Bot(<span class="tok-s">"TOKEN"</span>)
+
+<span class="tok-n">@bot.command</span>(<span class="tok-s">"file"</span>)
+<span class="tok-k">def</span> <span class="tok-f">send_file</span>(ctx):
+    file = InputFile(<span class="tok-s">"./sample.pdf"</span>)
+    ctx.reply_document(file, caption=<span class="tok-s">"فایل نمونه"</span>)
+
+bot.run_polling()</code></pre></div>
+
+      <div class="callout tip"><b>📥 دانلود فایل</b><code>bot.download_file(file_id)</code> بایت‌ها را برمی‌گرداند و با <code>destination=</code> روی دیسک ذخیره می‌کند؛ سقف ۲۰ مگابایت است.</div>
+      <div class="callout tip"><b>📎 منابع ورودی</b><code>InputFile</code> از مسیر فایل، بایت یا file object پشتیبانی می‌کند. برای ارسال مجدد فایل موجود، استفاده از <code>file_id</code> مناسب است.</div>
+    </section>
+
+    <!-- ERRORS -->
+    <section class="doc" id="errors" data-title="خطا امنیت error security">
+      <h2>🛡️ خطاها و امنیت</h2>
+      <p class="lead">با <code>@bot.on_error</code> خطاهای هندلرها را مدیریت کن.</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code><span class="tok-k">from</span> radvinsplus <span class="tok-k">import</span> Bot, APIError, NetworkError
+bot = Bot(<span class="tok-s">"TOKEN"</span>)
+
+<span class="tok-n">@bot.on_error</span>
+<span class="tok-k">def</span> <span class="tok-f">errors</span>(ctx, error):
+    <span class="tok-k">if</span> isinstance(error, APIError):
+        print(error.error_code, error.description)
+    <span class="tok-k">elif</span> isinstance(error, NetworkError):
+        print(<span class="tok-s">"مشکل شبکه:"</span>, error)
+
+bot.run_polling()</code></pre></div>
+
+      <h3>نکات امنیتی</h3>
+      <ul class="clean">
+        <li>توکن را در سورس عمومی، مخزن Git یا لاگ‌ها قرار نده.</li>
+        <li>توکن را همیشه از متغیر محیطی بخوان.</li>
+        <li>URL وب‌هوک و مسیر محرمانه آن را عمومی نکن.</li>
+        <li>خطاها را ثبت کن، اما اطلاعات محرمانه را لاگ نکن.</li>
+        <li>بسته را فقط از PyPI رسمی نصب کن و با <code>pip install radvinsplus==1.0.0</code> نسخه مشخص بگیر.</li>
+        <li>نسخه 1.0.0 در PyPI «Provenance» (گواهی منشأ و Trusted Publishing) ندارد؛ پس هش فایل را بررسی کن: SHA-256 به‌صورت <code>ef90b58a…fac38a0</code> است.</li>
+      </ul>
+
+      <h3>سلسله‌مراتب استثناها</h3>
+      <table>
+        <tr><th>کلاس</th><th>کاربرد</th></tr>
+        <tr><td><code>RadvinsPlusError</code></td><td>کلاس پایه همه استثناها</td></tr>
+        <tr><td><code>APIError</code></td><td>خطای برگشتی از سرور سروش‌پلاس</td></tr>
+        <tr><td><code>NetworkError</code></td><td>مشکل اتصال یا شبکه</td></tr>
+        <tr><td><code>ConfigurationError</code></td><td>خطای تنظیمات کتابخانه</td></tr>
+      </table>
+    </section>
+
+    <!-- POLLING -->
+    <section class="doc" id="polling" data-title="polling webhook وب هوک">
+      <h2>🌐 Polling و Webhook</h2>
+
+      <h3>Long Polling</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code>bot.run_polling(timeout=<span class="tok-n">25</span>, limit=<span class="tok-n">100</span>)</code></pre></div>
+      <p>برای توقف از Thread دیگر می‌توان <code>bot.stop()</code> را صدا زد. به‌صورت پیش‌فرض، پیش از شروع Polling وب‌هوک قبلی حذف می‌شود؛ برای تغییر این رفتار از <code>delete_webhook=False</code> استفاده کن.</p>
+
+      <h3>Webhook</h3>
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code>secret = <span class="tok-s">"LONG_RANDOM_SECRET"</span>
+bot.set_webhook(url=<span class="tok-s">"https://example.com/hook/"</span> + secret)
+bot.serve_webhook(
+    host=<span class="tok-s">"127.0.0.1"</span>,
+    port=<span class="tok-n">8080</span>,
+    path=<span class="tok-s">"/hook"</span>,
+    secret=secret,
+    block=<span class="tok-n">True</span>,
+)</code></pre></div>
+
+      <div class="callout warn"><b>⚠️ نکته استقرار</b>سرور داخلی HTTP است. برای دسترسی عمومی، HTTPS را با Reverse Proxy (مثل Nginx یا Caddy) فراهم کن. وب‌هوک باید از اینترنت قابل دسترسی باشد.</div>
+
+      <h3>Polling یا Webhook؟</h3>
+      <table>
+        <tr><th></th><th>Polling</th><th>Webhook</th></tr>
+        <tr><td>نیاز به دامنه و HTTPS</td><td>خیر</td><td>بله</td></tr>
+        <tr><td>مناسب برای</td><td>توسعه و پروژه‌های کوچک</td><td>محیط production</td></tr>
+        <tr><td>تأخیر پیام‌ها</td><td>کمی بیشتر</td><td>کمتر</td></tr>
+      </table>
+    </section>
+
+    <!-- API -->
+    <section class="doc" id="api" data-title="api client متد call">
+      <h2>⚙️ فراخوانی API و متدها</h2>
+      <p class="lead">کلاس <code>Bot</code> از <code>Client</code> ارث‌بری می‌کند. متدهای شناخته‌شده را می‌توان با نام snake_case یا نام اصلی API صدا زد.</p>
+
+      <div class="codeblock"><div class="bar"><div class="dots"><span></span><span></span><span></span></div><span>python</span><button class="copy">کپی</button></div>
+<pre><code>bot.get_me()
+
+<span class="tok-c"># معادل نام API</span>
+bot.getMe()
+
+<span class="tok-c"># فراخوانی عمومی</span>
+bot.call(<span class="tok-s">"sendMessage"</span>, chat_id=<span class="tok-n">123</span>, text=<span class="tok-s">"سلام"</span>)</code></pre></div>
+
+      <div class="callout"><b>ℹ️ توجه</b>وجود wrapper به معنی فعال بودن قطعی متد در سمت سرور نیست.</div>
+
+      <h3>متدهای رایج</h3>
+      <div class="toc-inline">
+        <code>send_message</code><code>edit_message_text</code><code>delete_message</code><code>answer_callback_query</code><code>get_updates</code><code>set_webhook</code><code>get_webhook_info</code>
+      </div>
+    </section>
+
+    <!-- LIMITS -->
+    <section class="doc" id="limits" data-title="نسخه محدودیت version limits">
+      <h2>📚 نسخه و محدودیت‌ها</h2>
+      <p class="lead">مشخصات نسخه <b>1.0.0</b> کتابخانه.</p>
+      <ul class="clean">
+        <li>نیازمند Python 3.10 یا جدیدتر (<code>Requires-Python &gt;=3.10</code>)</li>
+        <li>لایسنس MIT</li>
+        <li>هسته بدون وابستگی Runtime ثالث</li>
+        <li>پشتیبانی از Long Polling و Webhook</li>
+        <li>هندلرهای پیام، Callback Query، پیام ویرایش‌شده و Update عمومی</li>
+        <li>Router و فیلترهای آماده/ترکیبی</li>
+        <li>سازنده Inline و Reply Keyboard</li>
+        <li>ابزارهای InputFile و InputMedia</li>
+      </ul>
+      <div class="callout warn"><b>⚠️ نکته سازگاری</b>پیاده‌سازی بر اساس مستندات Bot API سروش‌پلاس انجام شده است. بعضی متدها در سند مبنا «به‌زودی» معرفی شده‌اند؛ بنابراین وجود متد در کتابخانه به معنی فعال بودن قطعی آن در سرور نیست.</div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="doc faq" id="faq" data-title="سوالات متداول faq">
+      <h2>❔ پرسش‌های پرتکرار</h2>
+      <details open><summary>چطور نصب کنم؟</summary><p>نصب از PyPI با <code>python -m pip install radvinsplus==1.0.0</code> انجام می‌شود و Python 3.10+ لازم است.</p></details>
+      <details><summary>توکن را کجا بگذارم؟</summary><p>توکن را در متغیر محیطی <code>SPLUS_BOT_TOKEN</code> بگذار و در کد عمومی منتشر نکن.</p></details>
+      <details><summary>نسخه مستندشده کدام است؟</summary><p>نسخه مستندشده کتابخانه <b>1.0.0</b> است.</p></details>
+      <details><summary>فیلترها چطور ترکیب می‌شوند؟</summary><p>فیلترهای آماده در کلاس <code>Filters</code> هستند و با <code>&amp;</code>، <code>|</code> و <code>~</code> ترکیب می‌شوند.</p></details>
+      <details><summary>Webhook را چطور راه‌اندازی کنم؟</summary><p>از <code>set_webhook</code> و سپس <code>serve_webhook</code> استفاده کن و HTTPS عمومی را با Reverse Proxy فراهم کن.</p></details>
+    </section>
+
+    <!-- OWNER -->
+    <section class="doc" id="owner" data-title="سازنده owner">
+      <h2>👨‍💻 سازنده</h2>
+      <div class="owner">
+        <div class="avatar">R</div>
+        <div>
+          <p style="margin:0"><b>شناسه:</b> <code>@Radvinhha</code></p>
+          <p style="margin:4px 0 0"><b>شناسه عددی:</b> <code>56597421</code></p>
+        </div>
+      </div>
+    </section>
+
+    <div class="empty" id="empty">نتیجه‌ای پیدا نشد.</div>
+
+    <footer>RadvinSPlus Documentation · v1.0.0 · ساخته‌شده با ❤️ توسط @Radvinhha</footer>
+  </main>
+</div>
+
+<button class="totop" id="totop" aria-label="بالا">↑</button>
+
+<script>
+// Sidebar active state
+const links = document.querySelectorAll('.nav');
+const sections = document.querySelectorAll('section.doc, .hero');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.toggle('active', l.dataset.id === e.target.id));
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(s => io.observe(s));
+
+// Mobile sidebar
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const toggle = (open) => { sidebar.classList.toggle('open', open); overlay.classList.toggle('open', open); };
+document.getElementById('menuBtn').onclick = () => toggle(!sidebar.classList.contains('open'));
+overlay.onclick = () => toggle(false);
+links.forEach(l => l.addEventListener('click', () => toggle(false)));
+
+// Theme
+const root = document.documentElement;
+const saved = localStorage.getItem('rs-theme');
+if (saved) root.setAttribute('data-theme', saved);
+document.getElementById('themeBtn').onclick = () => {
+  const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  root.setAttribute('data-theme', next);
+  try { localStorage.setItem('rs-theme', next); } catch (e) {}
+};
+
+// Copy buttons
+document.querySelectorAll('.copy').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const code = btn.closest('.codeblock').querySelector('code').innerText;
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch (e) {
+      const ta = document.createElement('textarea');
+      ta.value = code; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+    }
+    const old = btn.textContent;
+    btn.textContent = 'کپی شد ✓';
+    btn.style.color = 'var(--ok)';
+    setTimeout(() => { btn.textContent = old; btn.style.color = ''; }, 1500);
+  });
+});
+
+// Tabs
+document.querySelectorAll('[data-tabs]').forEach(tabs => {
+  const btns = tabs.querySelectorAll('button');
+  const panels = [...tabs.parentElement.querySelectorAll('.tab-panel')];
+  btns.forEach((b, i) => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.toggle('on', x === b));
+    panels.forEach((p, j) => p.hidden = j !== i);
+  }));
+});
+
+// Search
+const input = document.getElementById('searchInput');
+const empty = document.getElementById('empty');
+input.addEventListener('input', () => {
+  const q = input.value.trim().toLowerCase();
+  let shown = 0;
+  document.querySelectorAll('section.doc').forEach(s => {
+    const text = (s.dataset.title + ' ' + s.innerText).toLowerCase();
+    const match = !q || text.includes(q);
+    s.style.display = match ? '' : 'none';
+    if (match) shown++;
+  });
+  document.querySelector('.card-grid').style.display = q ? 'none' : '';
+  document.querySelector('.stats').style.display = q ? 'none' : '';
+  document.querySelector('.hero').style.display = q ? 'none' : '';
+  empty.style.display = shown ? 'none' : 'block';
+  links.forEach(l => {
+    const sec = document.getElementById(l.dataset.id);
+    l.classList.toggle('hidden', !!q && sec && sec.style.display === 'none');
+  });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === '/' && document.activeElement !== input) { e.preventDefault(); input.focus(); }
+});
+
+// Back to top
+const totop = document.getElementById('totop');
+window.addEventListener('scroll', () => totop.classList.toggle('show', window.scrollY > 600));
+totop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+// Playground
+const tokenInput = document.getElementById('tokenInput');
+const codeEditor = document.getElementById('codeEditor');
+const sampleCode = codeEditor.value;
+document.getElementById('tokenShow').onclick = (e) => {
+  const hidden = tokenInput.type === 'password';
+  tokenInput.type = hidden ? 'text' : 'password';
+  e.target.textContent = hidden ? 'مخفی' : 'نمایش';
+};
+document.getElementById('tokenApply').onclick = () => {
+  const t = tokenInput.value.trim();
+  if (!t) { alert('ابتدا توکن را وارد کن.'); return; }
+  codeEditor.value = codeEditor.value.replace(/Bot\(["'][^"']*["']\)|Bot\(os\.environ\[[^\]]*\]\)/, 'Bot("' + t + '")');
+};
+document.getElementById('codeReset').onclick = () => { codeEditor.value = sampleCode; };
+document.getElementById('codeCopy').onclick = async (e) => {
+  try { await navigator.clipboard.writeText(codeEditor.value); } catch (err) {}
+  e.target.textContent = 'کپی شد ✓';
+  setTimeout(() => e.target.textContent = 'کپی کد', 1500);
+};
+</script>
+</body>
+</html>
